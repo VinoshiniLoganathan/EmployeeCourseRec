@@ -1,1 +1,21 @@
+name: Schedule Deepnote Run
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # This schedules the run at 9 AM UTC daily
+
+jobs:
+  run-deepnote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Deepnote Notebook
+        env:
+          DEEPNOTE_API_TOKEN: ${{ secrets.DEEPNOTE_API_TOKEN }}
+          PROJECT_ID: your_project_id
+          NOTEBOOK_ID: your_notebook_id
+        run: |
+          curl -X POST "https://api.deepnote.com/v1/projects/$PROJECT_ID/notebooks/$NOTEBOOK_ID/execute" \
+          -H "Authorization: Bearer $DEEPNOTE_API_TOKEN" \
+          -H "Content-Type: application/json"
 
